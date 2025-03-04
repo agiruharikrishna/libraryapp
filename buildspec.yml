@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Downloading runtime-versions..."
+      - apt update -y
+    finally:
+      - echo "....................runtime completed...................................."
+
+  pre_build:
+    commands:
+      - echo "Running pre-build steps..."
+      - pwd
+      - ls -latR
+      - pwd
+      - echo ".....................pre-build completed.................................."
+    finally:
+      - echo "pre-build completed"
+      
+  build:
+    commands:
+      - echo "Building the project..."
+      - npm install
+    finally:
+      - echo "..............................build completed ..................................."
+
+  post_build:
+    commands:
+      - echo "Build completed successfully"
+      - echo "Uploading artifact to S3..."
+      - pwd
+      - zip -r libraryapp.zip . -x "node_modules/*" ".git/*"
+      - aws s3 cp /home/ubuntu/libraryapp/libraryapp.zip s3://librarayappnew/
+    finally:
+      - echo "..............................post-build completed.................................."
