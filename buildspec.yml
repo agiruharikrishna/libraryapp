@@ -31,6 +31,6 @@ phases:
       - echo "Uploading artifact to S3..."
       - pwd
       - zip -r libraryapp.zip . -x "node_modules/*" ".git/*"
-      - aws s3 cp /home/ubuntu/libraryapp/libraryapp.zip s3://librarayappnew/
+      - aws s3 cp libraryapp.zip s3://librarayappnew/
     finally:
       - echo "..............................post-build completed.................................."
